@@ -713,7 +713,6 @@ function redraw(){
         drawGlyph(stationGlyphs[index]);        
     }
     currentSVG += "</svg>";
-    document.getElementById("svgIO").value = currentSVG;
 //    drawGlyph("0340,0333,0330,0337,0333,0337,0330,0337,0337,0337,0337,0337,0337,0337,0336,0336,0336,0336,0336,0336,0336,0336,0336,0336,0333,0330,0336,0330,0336,0336,0333,0337,0337,0337,0337,0336,0336,0333,0331,057,052,0115,0145,0164,0162,0157,040,0103,0145,0156,0164,0145,0162,0365,");
 
 }
@@ -1021,6 +1020,7 @@ body{
             <td><input class = "latloninputs"></input></td>
         </tr>
     </table>
+    <button id = "locatebutton">LOCATE</button>
 </div>
 <script id = "script0706">
 
@@ -1033,6 +1033,41 @@ latlons[1].onchange = function(){
     latlons[2].value = wm2glyph(this.value);
 }
 
+document.getElementById("locatebutton").onclick = function(){
+
+}
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else { 
+        here = "Geolocation is not supported by this browser.";
+    }
+}
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            here = "User denied the request for Geolocation."
+            break;
+        case error.POSITION_UNAVAILABLE:
+            here = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+            here = "The request to get user location timed out."
+            break;
+        case error.UNKNOWN_ERROR:
+            here = "An unknown error occurred."
+            break;
+    }
+}
+
+function showPosition(position) {
+    here = position.coords.latitude.toString() + "," + position.coords.longitude.toString();
+    latlons[0].value = here;
+    latlons[1].value = latlon2wm(here);
+    latlons[2].value = wm2glyph(latlon2wm(here));
+    hereGlyph = wm2glyph(latlon2wm(here));
+    redraw();
+}
 </script>
 <style id = "style0506">
 #latloncalc{
@@ -1057,6 +1092,23 @@ td{
     font-size:16px;
     color:#00ff00;
 }
+#locatebutton{
+    position:absolute;
+    right:10px;
+    bottom:10px;
+    background-color:black;
+    font-size:22px;
+    color:#00ff00;
+    border-color:#00ff00;
+    cursor:pointer;
+}
+#locatebutton:hover{
+    background-color:#006000;
+}
+#locatebutton:active{
+    background-color:#50a000;
+}
+
 </style>
 <!-- control button layer: Z = +5-->
 <div id = "div0607">
