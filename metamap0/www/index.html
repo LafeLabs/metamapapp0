@@ -999,7 +999,6 @@ body{
 <div id = "div0605">
 </div>
 <script id = "script0705">
-//    getLocation();
 </script>
 <style id = "style0505">
 
@@ -1034,40 +1033,9 @@ latlons[1].onchange = function(){
 }
 
 document.getElementById("locatebutton").onclick = function(){
-
-}
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else { 
-        here = "Geolocation is not supported by this browser.";
-    }
-}
-function showError(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            here = "User denied the request for Geolocation."
-            break;
-        case error.POSITION_UNAVAILABLE:
-            here = "Location information is unavailable."
-            break;
-        case error.TIMEOUT:
-            here = "The request to get user location timed out."
-            break;
-        case error.UNKNOWN_ERROR:
-            here = "An unknown error occurred."
-            break;
-    }
+    getLocation();
 }
 
-function showPosition(position) {
-    here = position.coords.latitude.toString() + "," + position.coords.longitude.toString();
-    latlons[0].value = here;
-    latlons[1].value = latlon2wm(here);
-    latlons[2].value = wm2glyph(latlon2wm(here));
-    hereGlyph = wm2glyph(latlon2wm(here));
-    redraw();
-}
 </script>
 <style id = "style0506">
 #latloncalc{
